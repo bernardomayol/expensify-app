@@ -8,7 +8,9 @@
     "build:dev": "webpack --env production=false",
     "build:prod": "webpack --env production=true",
     "dev-server": "webpack serve --env production=false",
-    "test": "jest --config=jest.config.json"
+    "test": "jest --config=jest.config.json",
+    "start": "node server/server.js",
+    "heroku-postbuild": "npm run build:prod"
   },
   "author": "",
   "license": "ISC",
@@ -23,6 +25,7 @@
     "babel-preset-env": "^1.7.0",
     "babel-preset-react": "^6.24.1",
     "css-loader": "^5.0.1",
+    "express": "^4.17.1",
     "firebase": "^8.2.1",
     "jest": "^26.6.3",
     "live-server": "^1.2.1",
