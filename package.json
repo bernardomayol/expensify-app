@@ -6,8 +6,8 @@
   "scripts": {
     "build:dev": "webpack --env production=false",
     "build:prod": "webpack --env production=true",
-    "dev-server": "webpack serve --env production=false",
-    "test": "jest --config=jest.config.json",
+    "dev-server": "webpack serve --env production=false --watch",
+    "test": "cross-env NODE_ENV=test jest --config=jest.config.json",
     "start": "node server/server.js",
     "heroku-postbuild": "npm run build:prod"
   },
@@ -38,6 +38,8 @@
     "react-redux": "^7.2.2",
     "react-router-dom": "^5.2.0",
     "redux": "^4.0.5",
+    "redux-mock-store": "^1.5.4",
+    "redux-thunk": "^2.3.0",
     "sass-loader": "^10.1.0",
     "style-loader": "^2.0.0",
     "uuid": "^8.3.2",
@@ -46,13 +48,15 @@
   },
   "devDependencies": {
     "@wojtekmaj/enzyme-adapter-react-17": "^0.4.1",
+    "cross-env": "^7.0.3",
+    "dotenv": "^8.2.0",
     "enzyme": "^3.11.0",
     "enzyme-to-json": "^3.6.1",
+    "jest": "^26.6.3",
     "raf": "^3.4.1",
+    "react-test-renderer": "^17.0.1",
     "webpack-cli": "^4.2.0",
     "webpack-dev-server": "^3.11.1",
-    "webpack-merge": "^5.7.3",
-    "jest": "^26.6.3",
-    "react-test-renderer": "^17.0.1"
+    "webpack-merge": "^5.7.3"
   }
 }
