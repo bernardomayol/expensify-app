@@ -41,6 +41,16 @@ export const removeExpense = ({ id } = {}) => ({
   id,
 });
 
+// Remove Expense async
+export const startRemoveExpense = ({id} = {}) => {
+  return (dispatch) => {
+    // remove expense in firebase
+    return database.ref(`expenses/${id}`).remove().then(() => {
+      dispatch(removeExpense({id}))
+    })
+  }
+}
+
 //Edit expense
 export const editExpense = (id, updates) => ({
   type: 'EDIT_EXPENSE',

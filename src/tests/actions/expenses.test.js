@@ -5,6 +5,7 @@ import {
   startAddExpense,
   setExpenses,
   startSetExpenses,
+  startRemoveExpense,
 } from '../../actions/expenses';
 import expenses from '../fixtures/expenses';
 import configureMockStore from 'redux-mock-store';
@@ -115,14 +116,28 @@ test('should setup set expense action object with data', () => {
 });
 
 test('should fetch the expenses from firebase', (done) => {
-  const store = createMockStore({})
-  store.dispatch(startSetExpenses()).then(()=>{
+  const store = createMockStore({});
+  store.dispatch(startSetExpenses()).then(() => {
     const actions = store.getActions();
     expect(actions[0]).toEqual({
       type: 'SET_EXPENSES',
-      expenses
+      expenses,
     });
     done();
-  })
-})
+  });
+});
 
+test('should remove expense from firebase', (done) => {
+  const store = createMockStore({});
+  store.dispatch(startRemoveExpense({id: expenses[1].id})).then(() => {
+    const actions = store.getActions();
+    expect(actions[0]).toEqual({
+      type: 'REMOVE_EXPENSE',
+      id: expenses[1].id,
+    });
+    return database.ref(`expenses/${expenses[1].id}`).once('value');
+  }).then((snapshot) => {
+    expect(snapshot.val()).toBeFalsy();
+    done();
+  })
+});
