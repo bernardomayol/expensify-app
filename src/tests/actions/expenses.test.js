@@ -2,6 +2,7 @@ import {
   addExpense,
   removeExpense,
   editExpense,
+  startEditExpense,
   startAddExpense,
   setExpenses,
   startSetExpenses,
@@ -11,6 +12,7 @@ import expenses from '../fixtures/expenses';
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import database from '../../firebase/firebase';
+import { node } from 'webpack';
 
 const createMockStore = configureMockStore([thunk]);
 
@@ -43,6 +45,33 @@ test('Should setup edit expense action object', () => {
     id: '123abc',
     updates: { note: 'Rent of the month' },
   });
+});
+
+test('should edit expense on firebase', (done) => {
+  const store = createMockStore({});
+  const id = expenses[0].id;
+  const updates = {
+    description: 'Arma o pistola',
+    note: 'Peligrosa',
+  };
+  store
+    .dispatch(
+      startEditExpense(id, updates)
+    )
+    .then(() => {
+      const actions = store.getActions();
+      expect(actions[0]).toEqual({
+        type: 'EDIT_EXPENSE',
+        id,
+        updates,
+      });
+      return database.ref(`expenses/${id}`).once('value');
+    })
+    .then((snapshot) => {
+      expect(snapshot.val().description).toBe(updates.description);
+      expect(snapshot.val().note).toBe(updates.note);
+      done();
+    });
 });
 
 test('Should setup add expense action object with provided values', () => {
@@ -129,15 +158,20 @@ test('should fetch the expenses from firebase', (done) => {
 
 test('should remove expense from firebase', (done) => {
   const store = createMockStore({});
-  store.dispatch(startRemoveExpense({id: expenses[1].id})).then(() => {
-    const actions = store.getActions();
-    expect(actions[0]).toEqual({
-      type: 'REMOVE_EXPENSE',
-      id: expenses[1].id,
+  store
+    .dispatch(startRemoveExpense({ id: expenses[1].id }))
+    .then(() => {
+      const actions = store.getActions();
+      expect(actions[0]).toEqual({
+        type: 'REMOVE_EXPENSE',
+        id: expenses[1].id,
+      });
+      return database.ref(`expenses/${expenses[1].id}`).once('value');
+    })
+    .then((snapshot) => {
+      expect(snapshot.val()).toBeFalsy();
+      done();
     });
-    return database.ref(`expenses/${expenses[1].id}`).once('value');
-  }).then((snapshot) => {
-    expect(snapshot.val()).toBeFalsy();
-    done();
-  })
 });
+
+

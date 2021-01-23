@@ -4,7 +4,7 @@ import firebase from 'firebase/app';
 import moment from 'moment';
 
 // Add the Firebase services that you want to use
-//import "firebase/auth";
+import "firebase/auth";
 import 'firebase/firebase-database';
 
 const firebaseConfig = {
@@ -20,8 +20,9 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 
 const database = firebase.database();
+const googleAuthProvider = new firebase.auth.GoogleAuthProvider();
 
-export { firebase, database as default };
+export { firebase, googleAuthProvider, database as default };
 
 // database.ref('expenses').on('child_changed', (snapshot) => {
 //   console.log(snapshot.key, snapshot.val())
