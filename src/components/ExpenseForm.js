@@ -4,6 +4,7 @@ import moment from 'moment';
 import 'react-dates/initialize';
 import {SingleDatePicker} from 'react-dates';
 import 'react-dates/lib/css/_datepicker.css';
+import numeral from 'numeral';
 
 export class ExpenseForm extends Component {
   constructor(props){
@@ -11,7 +12,7 @@ export class ExpenseForm extends Component {
     this.state = {
       description: props.expense ? props.expense.description : '',
       note: props.expense ? props.expense.note : '',
-      amount: props.expense ? (props.expense.amount).toString() : '',
+      amount: props.expense ? (numeral(props.expense.amount/100).format('0,0.00')).toString() : '',
       createAt: props.expense ? moment(props.expense.createAt) : moment(),
       calendarFocused: false,
       error: ''
