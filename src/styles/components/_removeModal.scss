@@ -1,0 +1,17 @@
+.modal {
+  background: $off-white;
+  width: 60vh;
+  height: 25vh;
+  margin: 0 auto;
+}
+
+.modal__title {
+  font-size: $font-size-large;
+  font-weight: 700;
+  padding: $s-size;
+}
+
+.modal__buttons {
+  display: flex;
+  justify-content: space-around;
+}

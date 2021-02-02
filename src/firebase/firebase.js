@@ -1,7 +1,6 @@
 // Firebase App (the core Firebase SDK) is always required and
 // must be listed before other Firebase SDKs
 import firebase from 'firebase/app';
-import moment from 'moment';
 
 // Add the Firebase services that you want to use
 import "firebase/auth";
@@ -21,8 +20,9 @@ firebase.initializeApp(firebaseConfig);
 
 const database = firebase.database();
 const googleAuthProvider = new firebase.auth.GoogleAuthProvider();
+const facebookAuthProvider = new firebase.auth.FacebookAuthProvider();
 
-export { firebase, googleAuthProvider, database as default };
+export { firebase, googleAuthProvider, facebookAuthProvider, database as default };
 
 // database.ref('expenses').on('child_changed', (snapshot) => {
 //   console.log(snapshot.key, snapshot.val())

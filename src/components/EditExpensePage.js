@@ -1,9 +1,16 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { connect } from 'react-redux';
 import ExpenseForm from '../components/ExpenseForm';
 import { startEditExpense, startRemoveExpense } from '../actions/expenses';
+import RemoveModal from './RemoveModal';
 
 const EditExpensePage = (props) => {
+  const [showModal, setShowModal] = useState(false)
+
+  const handleShowModal = (open) => {
+    setShowModal(open)
+  }
+
   return (
     <div>
       <div className='page-header'>
@@ -22,12 +29,22 @@ const EditExpensePage = (props) => {
         <button
           className='button button--secondary'
           onClick={(e) => {
-            props.startRemoveExpense({ id: props.expense.id });
-            props.history.push('/');
-          }}
+            handleShowModal(true);
+
+              //props.startRemoveExpense({ id: props.expense.id });
+              //props.history.push('/');
+            }
+          }
         >
           Remove expense
         </button>
+        <RemoveModal 
+        showModal={showModal} 
+        handleShowModal={handleShowModal}
+        startRemoveExpense={props.startRemoveExpense}
+        expense={props.expense}
+        history={props.history}
+        />
       </div>
     </div>
   );
